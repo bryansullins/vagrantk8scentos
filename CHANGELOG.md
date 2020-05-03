@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Initial Release:
 This repo is taken from Exxactcorp's site [here](https://bitbucket.org/exxsyseng/k8s_centos/src/master/).
 ### Added 
-ENV['K8SINIT'] = 'true' Parameter
+
+`ENV['K8SINIT'] = 'true'` Parameter
 
 Options to implement different Network Providers:
-    # Uncomment as desired to use the different Network Providers:
-    kmaster.vm.provision "shell", path: "bootstrap_kmaster.sh"
-    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_calico.sh"
-    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"
+
+    # Uncomment as desired to use the different Network Providers:    
+    kmaster.vm.provision "shell", path: "bootstrap_kmaster.sh"    
+    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_calico.sh"    
+    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"    
