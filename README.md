@@ -1,87 +1,73 @@
-# Project Title
+# Vagrant Kubernetes Lab
 
-One Paragraph of project description goes here
+This is my Vagrant Kubernetes Lab using the VirtualBox Provider on MacOS. However, there is no reason it would not run on Windows or Linux. Platforms outside of MacOS, however are untested.
+
+### Prerequisites and Requirements
+This Vagrant Kubernetes Lab was built and tested on:
+
+#### Software Requirements:
+
+1. MacOS Catalina Version 10.15.4.
+2. VirtualBox Version 6.0.18 r136238 (Qt5.6.3). [VirtualBox](https://www.virtualbox.org/)
+3. Vagrant Version 2.2.6. [Vagrant](https://www.vagrantup.com/)
+
+#### Hardware Specs:
+1. 1.4GHz quad-core Intel Core i5
+2. 16GB of 2133MHz LPDDR3 onboard memory - Uses about 4.5GB RAM
+3. 128GB SSD - Requires 4GB Drive Space
+
+Other platforms or versions outside of the above are untested.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Clone the repo to your local machine:
 
-### Prerequisites
+    git clone https://github.com/bryansullins/vagrantk8scentos.git    
 
-What things you need to install the software and how to install them
+### Vagrantfile options and running `vagrant up`
 
-```
-Give examples
-```
+Assuming you have the above requirements, if you want to build the lab with the default paramaters, from the repo root directory type:
 
-### Installing
+    vagrant up    
 
-A step by step series of examples that tell you how to get a development env running
+To nuke the environemt, type:
 
-Say what the step will be
+    vagrant destroy    
 
-```
-Give the example
-```
+By default, running `vagrant up` will build the Kubernetes Lab with one Master Node and three Worker Nodes. `kubeadm init` is as follows:
 
-And repeat
+    kubeadm init --apiserver-advertise-address=172.42.42.100 --pod-network-cidr=192.168.0.0/16    
 
-```
-until finished
-```
+However, there is a "Practice Mode" option that will install all components for Kubernetes on all Nodes, but will not run `kubeadm init`. This will allow you to initialize Kubernetes manually for practice, if you so wish. To use "Practice Mode", change the parameter `ENV['K8SINIT']` to false, then build a new Vagrant env by typing `vagrant up`:
 
-End with an example of getting some data out of the system or using it for a little demo
+    ENV['K8SINIT'] = 'false'
 
-## Running the tests
 
-Explain how to run the automated tests for this system
 
-### Break down into end to end tests
+### Other options
 
-Explain what these tests test and why
+You can also alter options for using different Network Providers, such as Calico or Flannel. Comments in the Vagrantfile should give you guidance:
 
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+    # Uncomment as desired to use the different Network Providers:
+    kmaster.vm.provision "shell", path: "bootstrap_kmaster.sh"
+    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_calico.sh"
+    # kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Vagrant](https://www.vagrantup.com/) - Hashicorp's local Dev Env.
+* [VirtualBox](https://www.virtualbox.org/) - Oracle's free local Virtualization tool.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Contact [bryansullins](https://github.com/bryansullins) for contributing to this repo.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+See [CHANGELOG](CHANGELOG.md)
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Hat tip to Exxactcorp. This repo was taken from their current K8s Vagrant Lab website and this woud not have been possible without it:
+* Exxactcorp [BlogPost](https://blog.exxactcorp.com/building-a-kubernetes-cluster-using-vagrant/)
+* Exxactcorp Vagrant Kubernetes Lab [Repo](https://bitbucket.org/exxsyseng/k8s_centos/src/master/) 
